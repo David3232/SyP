@@ -1,0 +1,4 @@
+Exception in thread "main" java.lang.Error: Unresolved compilation problem: 
+	n2 cannot be resolved to a variable
+
+	at ejercicio1.Sumador.main(Sumador.java:22)

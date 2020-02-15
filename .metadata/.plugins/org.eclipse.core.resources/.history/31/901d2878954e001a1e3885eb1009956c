@@ -1,0 +1,69 @@
+package claves;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+public class decodificador {
+	static String texto =  "Js%zs%qzlfw%ij%qf%Rfshmf1%ij%hz~t%strgwj%st%vznjwt%fhtwifwrj1%st%mf%rzhmt%ynjrut%vzj%{n{òf%zs%mnifqlt%ij%qtx%ij%qfsf%js%fxynqqjwt1%fifwlf%fsynlzf1%wthòs%kqfht%~%lfqlt%htwwjitw3%Zsf%tqqf%ij%fqlt%ræx%{fhf%vzj%hfwsjwt1%xfqunhøs%qfx%ræx%sthmjx1%izjqtx%~%vzjgwfsytx%qtx%xægfitx1%qjsyjofx%qtx%{njwsjx1%fqlÿs%ufqtrnst%ij%föfinizwf%qtx%itrnsltx1%htsxzròfs%qfx%ywjx%ufwyjx%ij%xz%mfhnjsif3";
+
+	public static void main (String[] args) throws IOException {
+		int desplazamiento = obtenerDeesplazamiento(texto);
+		StringBuilder cifrado = new StringBuilder();
+		desplazamiento = desplazamiento % 26;
+	       for (int i = 0; i < texto.length(); i++) {
+	           if (texto.charAt(i) >= 'a' && texto.charAt(i) <= 'z') {
+	               if ((texto.charAt(i) - desplazamiento) < 'a') {
+	                   cifrado.append((char) (texto.charAt(i) - desplazamiento + 26));
+	               } else {
+	                   cifrado.append((char) (texto.charAt(i) - desplazamiento));
+	               }
+	           } else if (texto.charAt(i) >= 'A' && texto.charAt(i) <= 'Z') {
+	               if ((texto.charAt(i) - desplazamiento) < 'A') {
+	                   cifrado.append((char) (texto.charAt(i) - desplazamiento + 26));
+	               } else {
+	                   cifrado.append((char) (texto.charAt(i) - desplazamiento));
+	               }
+	           }
+	       }
+           System.out.println(cifrado.toString());
+	}
+	
+	// Función para obtener el caracter más repetido, que significará que es la e
+	// y así restarlo y obtener el desplazamiento.
+	public static int obtenerDeesplazamiento(String texto) { 
+		   
+		   char[] caracteres = texto.toCharArray();
+	       
+	       char masRepetida = 0;        
+	       int desplazamiento = 0;
+	       int valorReferencia = 0;
+	       int apariciones = 0;
+	       for (int i = 0; i < caracteres.length; i++){
+	    	   apariciones = contarCaracteres(texto, caracteres[i]);
+	    	   if (valorReferencia < apariciones) {
+	    		   valorReferencia = apariciones;
+		    	   masRepetida = caracteres[i];
+	               int asciiValue = (int) masRepetida;
+	               desplazamiento = asciiValue - 32; // 32 => espacio 
+	    	   }
+	       }
+           System.out.println(masRepetida);
+	       System.out.println(desplazamiento);
+		return desplazamiento;
+	}
+	
+	//calcular el número de veces que se repite un carácter en un String
+    public static int contarCaracteres(String cadena, char caracter) {
+        int posicion;
+        int contador = 0;
+        
+        posicion = cadena.indexOf(caracter);
+        while (posicion != -1) {
+            contador++;
+            posicion = cadena.indexOf(caracter, posicion + 1);
+        }
+        return contador;
+   }
+}

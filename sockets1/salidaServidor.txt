@@ -1,0 +1,2 @@
+Arrancado el servidor
+No se pudo poner un socket a escuchar en TCP 9876

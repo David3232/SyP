@@ -1,0 +1,43 @@
+package claves;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.security.spec.X509EncodedKeySpec;
+
+public class Cliente implements Runnable{
+
+	@Override
+	public void run() {
+		InetSocketAddress direccion = new InetSocketAddress("localhost", 9876);
+		Socket socket = new Socket();
+		try {
+			socket.setReuseAddress(true);
+			socket.connect(direccion);
+			InputStreamReader isr = new InputStreamReader(socket.getInputStream());
+			BufferedReader bfr = new BufferedReader(isr);
+			PrintWriter pw = new PrintWriter(socket.getOutputStream());
+			X509EncodedKeySpec ks = new X509EncodedKeySpec("publickey");
+			pw.println("Nombre: " + Thread.currentThread().getName());
+			pw.println("Segunda línea");
+			pw.println("Tercera línea");
+			pw.println("fin");
+			pw.flush();
+			String resultado = bfr.readLine();
+			System.out.println("El resultado es: "+ resultado);
+			bfr.close();
+			pw.close();
+			isr.close();
+			socket.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public static void main(String[] args) {
+		Cliente cliente	= new Cliente();
+		cliente.run();
+	}
+}
